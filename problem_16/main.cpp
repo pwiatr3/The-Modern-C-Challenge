@@ -18,9 +18,14 @@ private:
 public:
     constexpr ipv4() : a_(0), b_(0), c_(0), d_(0)  {};
     constexpr ipv4(unsigned int a, 
-    unsigned int b,
-    unsigned int c,
-    unsigned int d) : a_(a), b_(b), c_(c), d_(d) {};
+                    unsigned int b,
+                    unsigned int c,
+                    unsigned int d) : a_(a), b_(b), c_(c), d_(d) {};
+    constexpr ipv4(unsigned long a) :
+        a_((a >> 24) & 0xFF),
+        b_((a >> 16) & 0xFF),
+        c_((a >> 8) & 0xFF),
+        d_(a & 0xFF) {};
     friend ostream& operator<<(ostream& os, const ipv4& ip);
     friend std::istream& operator>>(std::istream& is, ipv4& a);
     std::string to_string() const
@@ -66,7 +71,9 @@ int main() {
     }
     cout << "You entered: ";
     cout << ip;
-    unsigned long num = ip.to_ulong();
+
+    unsigned long num = 0x01020304;
+    ipv4 ip1 = ipv4(num);
 
     return 0;
 }
