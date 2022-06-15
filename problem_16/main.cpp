@@ -1,5 +1,5 @@
 //******************************************************
-// 15. IPv4 data type
+// 16. Enumerating IPv4 addresses in a range
 //******************************************************
 #include <iostream>
 #include <numeric>
@@ -41,6 +41,31 @@ public:
         (static_cast<unsigned long>(c_) << 8) |
         static_cast<unsigned long>(d_);
     }
+    ipv4& operator++(int) {
+        *this = ipv4(to_ulong() + 1);
+        return *this;   
+    }
+    bool operator==(const ipv4& b) {
+        if(this->a_ = b.a_ && this->b_ == b.b_ && this->c_ == b.c_ && this->d_ == b.d_) {
+            return true;
+        }
+        return false;
+    }
+    bool operator<(const ipv4& ip) {
+        if(this->to_ulong() < ip.to_ulong()) {
+            return true;
+        }
+        return false;
+    }
+    bool operator>(const ipv4& ip) {
+        if(this->to_ulong() > ip.to_ulong()) {
+            return true;
+        }
+        return false;
+    }
+    bool operator<=(const ipv4& ip) {
+        return !(*this > ip);
+    }
 };
 
 ostream& operator<<(ostream& os, const ipv4& ip) {
@@ -61,20 +86,11 @@ std::istream& operator>>(std::istream& is, ipv4& a) {
     return is;
 }
 int main() {
-    ipv4 ip {};
-
-    cout << "Enter ip adress: ";
-    cin >> ip;
-    if(cin.fail()) {
-        cout << "Wrong formatting!\n";
-        return 1;
+    ipv4 ip1{1, 2, 3, 0};
+    ipv4 ip2{1, 2, 3, 5};
+    for(ipv4 ip = ip1; ip <= ip2; ip++) {
+        cout<< ip;
     }
-    cout << "You entered: ";
-    cout << ip;
-
-    unsigned long num = 0x01020304;
-    ipv4 ip1 = ipv4(num);
-
     return 0;
 }
 
